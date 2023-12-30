@@ -9,7 +9,7 @@ class ClienteSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if not validate_cpf(data['cpf']):
-            raise serializers.ValidationError({'CPF':'O CPF deve ter 11 dígitos'})
+            raise serializers.ValidationError({'CPF':'CPF inválido'})
         
         if not validate_nome(data['nome']):
             raise serializers.ValidationError({'Nome':'Não inclua números neste campo'})
@@ -17,8 +17,8 @@ class ClienteSerializer(serializers.ModelSerializer):
         if not validate_rg(data['rg']):
             raise serializers.ValidationError({'RG':'O RG deve ter 9 dígitos'})
         
-        if validate_celular(data['celular']):
-            raise serializers.ValidationError({'Celular':'O celular deve ter 11 dígitos'})
+        if not validate_celular(data['celular']):
+            raise serializers.ValidationError({'Celular':'O número de celular deve seguir o seguinte padrão: XX XXXXX-XXXX'})
 
         return data
     
